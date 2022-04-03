@@ -2,6 +2,11 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --primary-color: #fff;
+  --secondary-color: #000;
+}
+
 body {
   text-align: center;
   margin: auto;
@@ -10,6 +15,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.dark-theme {
+  --primary-color: #000106;
+  --secondary-color: #fff;
+}
+
+.uITheme {
+  --secondary-color: #000;
+  --primary-color: rgb(0, 140, 255);
 }
 
 code {
@@ -55,7 +72,6 @@ h1 {
 }
 
 .ulin {
-  background-color: rgb(0, 140, 255);
   padding-top: 15px;
   padding-bottom: 15px;
 }

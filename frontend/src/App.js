@@ -140,8 +140,13 @@ const App = () => {
 
   const handleUlIn = () => {
     setUlIn(1 - ultraInstinctMode);
+    document.body.classList.toggle("uITheme")
     window.scrollTo(0, 0);
   };
+
+  const handleDarkTheme = () => {
+    document.body.classList.toggle("dark-theme");
+  }
 
   return (
     <div className={ultraInstinctMode ? "ulin" : "normal"}>
@@ -190,6 +195,7 @@ const App = () => {
       </div>
       <button onClick={submit}>Submit</button>
       <button onClick={clearCanvas}>Clear</button>
+      <button onClick={handleDarkTheme}>Toggle Dark</button> 
       <Result confidence={confidence} result={result}></Result>
       <div className="footer">
         Created by MA1508E Tutorial T10 Group A 21/22 Semester 2
