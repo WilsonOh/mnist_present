@@ -55,10 +55,12 @@ h1 {
 
 .footer {
   margin: auto;
+  margin-top: 200px;
   width: 100%;
   left: 0;
   bottom: 0;
-  position: fixed;
+  position: relative;
+  /* position: fixed; */
   text-align: center;
   font-size: small;
 }
@@ -83,4 +85,5 @@ h1 {
 
 canvas {
   background-color: white;
+  touch-action: none;
 }
