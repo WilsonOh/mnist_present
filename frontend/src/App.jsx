@@ -8,12 +8,12 @@ const RESULTANT_SIZE = 28;
 function resizeImage(image, height, width) {
   const h_diff = Math.floor(height / RESULTANT_SIZE);
   const w_diff = Math.floor(width / RESULTANT_SIZE);
-  var result = [];
-  for (var i = 0; i < RESULTANT_SIZE; i += 1) {
+  let result = [];
+  for (let i = 0; i < RESULTANT_SIZE; i += 1) {
     result.push([]);
-    var row = result[i];
-    var row_start = 4 * i * h_diff * width;
-    for (var j = 0; j < RESULTANT_SIZE; j += 1) {
+    let row = result[i];
+    let row_start = 4 * i * h_diff * width;
+    for (let j = 0; j < RESULTANT_SIZE; j += 1) {
       const index = row_start + j * w_diff * 4 + 3;
       if (image[index]) {
         row.push(1);
@@ -26,9 +26,9 @@ function resizeImage(image, height, width) {
   return result;
 }
 function getResult(result_tensor) {
-  var largest_i = 0;
-  var largest_val = 0;
-  for (var i = 0; i < 10; i += 1) {
+  let largest_i = 0;
+  let largest_val = 0;
+  for (let i = 0; i < 10; i += 1) {
     if (result_tensor[i] > largest_val) {
       largest_val = result_tensor[i];
       largest_i = i;
@@ -39,7 +39,7 @@ function getResult(result_tensor) {
 
 function getRealCoords(event, canvas) {
   const rect = canvas.getBoundingClientRect();
-  var { clientX, clientY } = event;
+  let { clientX, clientY } = event;
   clientX = clientX - rect.left;
   clientY = clientY - rect.top;
   return { clientX, clientY };
@@ -51,7 +51,7 @@ const App = () => {
   const [drawing, setDrawing] = useState(false);
   const [result, setResult] = useState(-1);
   const [confidence, setConfidence] = useState(0);
-  const [ultraInstinctMode, setUlIn] = useState(0);
+  const [ultraInstinctMode, setUlIn] = useState(true);
 
   useLayoutEffect(() => {
     const canvas = document.getElementById("canvas");
@@ -67,12 +67,12 @@ const App = () => {
 
   function inference(image) {
     // create a new XMLHttpRequest
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     // get a callback when the server responds
     xhr.addEventListener("load", () => {
       // update the state of the component with the result here
-      var result = JSON.parse(xhr.responseText);
+      let result = JSON.parse(xhr.responseText);
       result = result.predictions[0];
       console.log(result);
       const value = getResult(result);
@@ -114,16 +114,16 @@ const App = () => {
 
   function submit() {
     console.log(0.7 * window.innerHeight);
-    var image = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let image = context.getImageData(0, 0, canvas.width, canvas.height).data;
     console.log(image);
-    var result = resizeImage(image, canvas.height, canvas.width);
+    let result = resizeImage(image, canvas.height, canvas.width);
     inference(result);
     clearCanvas(canvas, context);
   }
 
   const handleMouseDown = (event) => {
     setDrawing(true);
-    var { clientX, clientY } = getRealCoords(event, canvas);
+    let { clientX, clientY } = getRealCoords(event, canvas);
     initiatePath(clientX, clientY, context);
   };
 
@@ -146,7 +146,7 @@ const App = () => {
   };
 
   const handleUlIn = () => {
-    setUlIn(1 - ultraInstinctMode);
+    setUlIn(!ultraInstinctMode);
     document.body.classList.toggle("uITheme");
     window.scrollTo(0, 0);
   };
