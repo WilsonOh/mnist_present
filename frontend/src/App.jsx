@@ -65,36 +65,24 @@ const App = () => {
     setContext(context);
   }, []);
 
-  function inference(image) {
-    // create a new XMLHttpRequest
-    let xhr = new XMLHttpRequest();
-
-    // get a callback when the server responds
-    xhr.addEventListener("load", () => {
-      // update the state of the component with the result here
-      let result = JSON.parse(xhr.responseText);
-      result = result.predictions[0];
-      console.log(result);
-      const value = getResult(result);
-      const confidence = result[value];
-      console.log(result, confidence);
-      setConfidence(confidence);
-      setResult(value);
-      window.scrollBy(0, 500);
-      console.log();
-    });
-    // open the request with the verb and the relative url
-    xhr.open("POST", `/submit`);
-    // Important: set request headers if not flask won't recieve the JSON
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    // send the request
-    xhr.send(
-      JSON.stringify({
+  async function inference(image) {
+    const resp = await fetch("/submit", {
+      method: "POST",
+      body: JSON.stringify({
         image: image,
         version: ultraInstinctMode,
-      })
-    );
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const result = (await resp.json())["predictions"][0];
+    const value = getResult(result);
+    const confidence = result[value];
+    setConfidence(confidence);
+    setResult(value);
+    window.scrollBy(0, 500);
   }
 
   function initiatePath(x, y, context) {
@@ -113,9 +101,7 @@ const App = () => {
   }
 
   function submit() {
-    console.log(0.7 * window.innerHeight);
     let image = context.getImageData(0, 0, canvas.width, canvas.height).data;
-    console.log(image);
     let result = resizeImage(image, canvas.height, canvas.width);
     inference(result);
     clearCanvas(canvas, context);
